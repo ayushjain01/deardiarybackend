@@ -9,7 +9,7 @@ class DearDiary:
         self.date = date
         self.entry = entry
         self.client = pymongo.MongoClient(
-            "mongodb+srv://ayushganna67:9tRECDyPgD12ALSn@deardiary.dn8lmbn.mongodb.net/")
+            "mongodb+srv://ayushganna67:U9qpqS1V3tKy0sq1@deardiary.dn8lmbn.mongodb.net/")
         self.mydb = self.client["DearDiary"]
         self.entriesCol = self.mydb["entries"]
         if self.entriesCol.find({"created_at": self.date}):
