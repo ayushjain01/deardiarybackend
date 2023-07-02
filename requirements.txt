@@ -4,3 +4,4 @@ Xformers
 flask
 gunicorn
 gevent
+requests

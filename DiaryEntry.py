@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 from transformers import pipeline
 import pymongo
+import requests
 
 def main(email, content, date):
-    classifier = pipeline(
-        "text-classification", model="bhadresh-savani/distilbert-base-uncased-emotion", return_all_scores=True)
-    predict = classifier(content)
+    API_URL = "https://api-inference.huggingface.co/models/bhadresh-savani/distilbert-base-uncased-emotion"
+    headers = {"Authorization": "Bearer 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"}
+    response = requests.post(API_URL, headers=headers, json={
+        "inputs": content,
+    })
+
+    predict = response.json()
     score = {}
     for i in predict[0]:
         score[i["label"]] = round(i["score"] * 100, 2)
@@ -25,12 +30,12 @@ def main(email, content, date):
             emotion = emotion
             mainscore = score
     mydict = {
-            "email": email,
-            "created_at": date,
-            "content": content,
-            "emotion": emotion,
-            "emotion_distribution": emotionDistribution
-        }
+        "email": email,
+        "created_at": date,
+        "content": content,
+        "emotion": emotion,
+        "emotion_distribution": emotionDistribution
+    }
     entriesCol.insert_one(mydict)
     emotions = []
     sadness_curve = []
@@ -39,7 +44,7 @@ def main(email, content, date):
     anxiety_curve = []
     dates = []
     entries = entriesCol.find({"email": email}, {
-                                    "_id": 0, "created_at": 1, "emotion": 1, "emotion_distribution": 1})
+        "_id": 0, "created_at": 1, "emotion": 1, "emotion_distribution": 1})
     for entry in entries:
         dates.append(entry["created_at"])
         emotions.append(entry["emotion"])
