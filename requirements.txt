@@ -3,5 +3,5 @@ pymongo
 Xformers
 flask
 gunicorn
-gevent
+uvicorn
 requests
