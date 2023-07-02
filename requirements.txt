@@ -2,3 +2,4 @@ transformers
 pymongo
 Xformers
 flask
+gunicorn
