@@ -1,2 +1,13 @@
-flask>=2.0.0
-gunicorn>=20.1.0
+datetime
+pandas
+numpy
+IPython
+textblob
+nltk
+matplotlib
+wordcloud
+vaderSentiment
+transformers
+pymongo
+Xformers
+flask
