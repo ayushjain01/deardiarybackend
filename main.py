@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, Response, jsonify
 import DiaryEntry 
 import AddUser 
+import time
 
 app = Flask(__name__)
 
@@ -9,9 +10,9 @@ def index():
   return render_template('index.html')
 
 
-
 @app.route('/entry')
 def process_entry():
+    start = time.time()
     email = request.args.get('email')
     date = request.args.get('date')
     content = request.args.get('content')
@@ -26,7 +27,8 @@ def process_entry():
             "anger_curve":anger_curve,
             "anxiety_curve":anxiety_curve
         }
-
+        end = time.time()
+        print("The time of execution of above program is :",(end-start) * 10**3, "ms")
         return jsonify(output), 200
     else:
         return Response("Please provide email, date, and content parameters."), 400
